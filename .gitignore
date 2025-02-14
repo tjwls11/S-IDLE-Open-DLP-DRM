@@ -1,41 +1,36 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Python (Backend 관련)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Docker 관련
+.docker/
 
-# testing
-/coverage
+# IDE (VSCode, PyCharm 등)
+.vscode/
+.idea/
 
-# next.js
+# Next.js 관련
 /.next/
-/out/
+out/
 
-# production
-/build
+# Node.js 
+/node_modules/
+/npm-debug.log
+/yarn-debug.log
+/yarn-error.log
+/pnpm-debug.log/
 
-# misc
-.DS_Store
-*.pem
+# 환경 설정 파일
+/.env*
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
+# typescript (Next.js 관련)
 *.tsbuildinfo
 next-env.d.ts
+
+# 기타 파일
+.DS_Store
+*.pem
