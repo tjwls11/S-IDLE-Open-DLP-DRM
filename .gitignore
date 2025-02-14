@@ -1,9 +1,10 @@
-# Python (Backend 관련)
+# Python 
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .venv/
+venv/
 
 # Docker 관련
 .docker/
