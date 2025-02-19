@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="text-5xl text-center mt-20">
           {message}
         </div>
-      
+     
       </body>
     </html>
   );
