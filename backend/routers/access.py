@@ -1,26 +1,30 @@
 # routers/access.py
-
-from fastapi import APIRouter, HTTPException
-from typing import List
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from database import get_db
+from models import User
+from pydantic import BaseModel
 
 router = APIRouter()
 
-# 예시: 사용자의 접근 권한을 관리하는 엔드포인트
+# 요청 데이터 검증을 위한 Pydantic 모델
+class UserCreate(BaseModel):
+    email: str
+    username: str
 
-# 특정 파일에 대한 접근 권한 부여
-@router.post("/grant")
-async def grant_access(file_id: str, user_id: str):
-    # 실제 권한 부여 로직 구현 필요 (DB 연동 등)
-    return {"status": "success", "file_id": file_id, "user_id": user_id}
+# 사용자 생성 엔드포인트
+@router.post("/users/")
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    db_user = User(email=user.email, username=user.username)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
-# 특정 파일에 대한 접근 권한 취소
-@router.post("/revoke")
-async def revoke_access(file_id: str, user_id: str):
-    # 실제 권한 취소 로직 구현 필요 (DB 연동 등)
-    return {"status": "success", "file_id": file_id, "user_id": user_id}
-
-# 특정 사용자의 접근 가능한 파일 목록 조회
-@router.get("/user/{user_id}/files")
-async def get_user_files(user_id: str):
-    # 실제 DB에서 사용자 권한 확인 후 파일 목록 조회
-    return {"user_id": user_id, "files": ["file1", "file2", "file3"]}  # 예시 목록
+# 사용자 조회 엔드포인트
+@router.get("/users/{user_id}")
+def read_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
